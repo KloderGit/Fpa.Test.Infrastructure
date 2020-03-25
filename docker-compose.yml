@@ -1,0 +1,36 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:12
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres_database:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+    restart: always
+  
+  configuration:
+    container_name: configuration
+    image: docker.pkg.github.com/klodergit/configuration.fitness-pro.ru/configuration.fitness-pro.ru:dev
+    entrypoint: ["dotnet", "configuration.fitness-pro.ru.dll", "--ConnectionString", "Host=postgres;Port=5432;Database=Configuration;Username=postgres;Password=postgres", "--Environment", "Development"]
+    ports: 
+      - "80:80"
+      - "443:443"
+    networks: 
+      - mynetwork
+    restart: always
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  postgres_database:
+    external: true
