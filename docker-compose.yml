@@ -1,36 +1,40 @@
 version: '3.5'
-
 services:
   postgres:
-    container_name: postgres
-    image: postgres:12
+    container_name: postgres-compose
+    image: 'postgres:12'
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       PGDATA: /data/postgres
     volumes:
-      - postgres_database:/data/postgres
+      - 'postgres_database:/data/postgres'
     ports:
-      - "5432:5432"
-    networks:
-      - mynetwork
+      - '5432'
     restart: always
-  
+  logging:
+    container_name: seq-logging-compose
+    image: 'datalust/seq:5.1'
+    restart: always
+    volumes:
+      - 'seq_database:/data/seq'
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - '5341'
+      - '6100:80'
   configuration:
-    container_name: configuration
-    image: docker.pkg.github.com/klodergit/configuration.fitness-pro.ru/configuration.fitness-pro.ru:dev
-    entrypoint: ["dotnet", "configuration.fitness-pro.ru.dll", "--ConnectionString", "Host=postgres;Port=5432;Database=Configuration;Username=postgres;Password=postgres", "--Environment", "Development"]
-    ports: 
-      - "80:80"
-      - "443:443"
-    networks: 
-      - mynetwork
+    container_name: configuration-composer
+    image: 'docker.pkg.github.com/fitness-professional-association/configuration.fitness-pro.ru/configuration.fitness-pro.ru:dev'
+    ports:
+      - '5100:80'
     restart: always
-
-networks:
-  mynetwork:
-    driver: bridge
-
+    depends_on:
+      - postgres
+  redis:
+    image: redis
 volumes:
   postgres_database:
+    external: true
+  seq_database:
     external: true
