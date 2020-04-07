@@ -42,3 +42,12 @@ services:
     restart: always
     depends_on:
       - configuration
+
+  Crm:
+    container_name: Crm-composer
+    image: 'docker.pkg.github.com/fitness-professional-association/crm.fitness-pro.ru/crm.fitness-pro.ru:dev'
+    ports:
+      - '5300:80'
+    restart: always
+    depends_on:
+      - configuration
