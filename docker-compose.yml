@@ -1,5 +1,12 @@
 version: '3.7'
 services:
+  Api:
+    container_name: Api-composer
+    image: 'docker pull docker.pkg.github.com/fitness-professional-association/api.fitness-pro.ru/api.fitness-pro.ru:dev'
+    ports:
+      - '5500:80'
+    restart: always
+
   postgres:
     container_name: postgres-compose
     image: 'postgres:12'
