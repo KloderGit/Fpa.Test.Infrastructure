@@ -65,3 +65,10 @@ services:
     ports:
       - '5400:80'
     restart: always
+    
+  lcRest:
+    container_name: lc-Rest-composer
+    image: 'docker.pkg.github.com/fitness-professional-association/fpa.lcrest/fpa.lcrest:dev'
+    ports:
+      - '5600:80'
+    restart: always    
