@@ -81,3 +81,12 @@ services:
       - '5700:80'
       - '5701:443'
     restart: always
+
+  MongoBD:
+    container_name: MongoDb-composer
+    image: mongo
+    ports:
+      - '5700:27017'
+    restart: always
+    volumes:
+      - '/data/mongodb/data'
