@@ -20,26 +20,26 @@ services:
       - '5432'
     restart: always
 
-  logging:
-    container_name: seq-logging-compose
-    image: 'datalust/seq:5.1'
-    restart: always
-    volumes:
-      - '/data/seq:/data'
-    environment:
-      - ACCEPT_EULA=Y
-    ports:
-      - '5341'
-      - '6100:80'
+  # logging:
+  #   container_name: seq-logging-compose
+  #   image: 'datalust/seq:5.1'
+  #   restart: always
+  #   volumes:
+  #     - '/data/seq:/data'
+  #   environment:
+  #     - ACCEPT_EULA=Y
+  #   ports:
+  #     - '5341'
+  #     - '6100:80'
 
-  configuration:
-    container_name: configuration-composer
-    image: 'docker.pkg.github.com/fitness-professional-association/configuration.fitness-pro.ru/configuration.fitness-pro.ru:dev'
-    ports:
-      - '5100:80'
-    restart: always
-    depends_on:
-      - postgres
+  # configuration:
+  #   container_name: configuration-composer
+  #   image: 'docker.pkg.github.com/fitness-professional-association/configuration.fitness-pro.ru/configuration.fitness-pro.ru:dev'
+  #   ports:
+  #     - '5100:80'
+  #   restart: always
+  #   depends_on:
+  #     - postgres
 
   lc:
     container_name: lc-composer
@@ -47,8 +47,8 @@ services:
     ports:
       - '5200:80'
     restart: always
-    depends_on:
-      - configuration
+    # depends_on:
+    #   - configuration
 
   Crm:
     container_name: Crm-composer
@@ -56,9 +56,9 @@ services:
     ports:
       - '5300:80'
     restart: always
-    depends_on:
-      - configuration
-
+    # depends_on:
+    #   - configuration
+    
   Identity:
     container_name: Identity-composer
     image: 'docker.pkg.github.com/fitness-professional-association/identity.fitness-pro.ru/identity.fitness-pro.ru:dev'
@@ -66,10 +66,18 @@ services:
       - '5400:80'
       - '5401:443'
     restart: always
-    
+
   lcRest:
     container_name: lc-Rest-composer
     image: 'docker.pkg.github.com/fitness-professional-association/fpa.lcrest/fpa.lcrest:dev'
     ports:
       - '5600:80'
-    restart: always    
+    restart: always
+
+  Reception:
+    container_name: Reception-composer
+    image: 'docker.pkg.github.com/fitness-professional-association/fpa.reception/fpa.reception:dev'
+    ports:
+      - '5700:80'
+      - '5701:443'
+    restart: always
