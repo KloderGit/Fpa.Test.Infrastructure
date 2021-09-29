@@ -86,7 +86,7 @@ services:
     container_name: MongoDb-composer
     image: mongo
     ports:
-      - '5700:27017'
+      - '5800:27017'
     restart: always
     volumes:
       - '/data/mongodb/data'
